@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">EZ Robot</string>
+    <string name="send_button">Send</string>
+    <string name="discover_button">Discover</string>
+    <string name="map_button">Map</string>
+    <string name="back_button">Back</string>
+    <string name="connected">Connected</string>
+    <string name="home_button">Home</string>
+</resources>

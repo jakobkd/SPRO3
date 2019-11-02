@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">EZ Robot</string>
+    <string name="send_button">Send</string>
+    <string name="discover_button">Discover</string>
+    <string name="map_button">Map</string>
+    <string name="back_button">Back</string>
+    <string name="connected">Connected</string>
+    <string name="home_button">Home</string>
+    <string name="add_network_button">Add network</string>
+    <string name="add">Add</string>
+    <string name="ssid_hint">SSID</string>
+    <string name="password_hint">Password</string>
+    <string name="net_available">Available</string>
+    <string name="net_unavailable">Unavailable</string>
+</resources>

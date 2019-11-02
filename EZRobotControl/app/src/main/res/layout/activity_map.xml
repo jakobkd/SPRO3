@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_activity_container"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="1"
+    tools:context=".MapActivity"
+    >
+
+<RelativeLayout
+    android:id="@+id/map_layout"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:background="@color/background"
+
+    app:layout_constraintStart_toStartOf="@id/map_activity_container"
+    app:layout_constraintEnd_toEndOf="@id/map_activity_container"
+    app:layout_constraintBottom_toTopOf="@id/map_button_bar"
+    app:layout_constraintTop_toTopOf="parent"
+    >
+
+    <androidx.appcompat.widget.AppCompatImageView android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/mapMarker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/robot"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/ic_launcher_round"
+        />
+
+
+</RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/map_button_bar"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+
+        app:layout_constraintTop_toBottomOf="@id/map_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        style="?android:attr/buttonBarStyle">
+
+        <Button
+            android:id="@+id/map_back_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/back_button"
+            android:onClick="closeMap"
+
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/move_button"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            style="?android:attr/buttonBarButtonStyle"
+            />
+
+        <Button
+            android:id="@+id/move_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_button"
+            android:onClick="homeRobot"
+
+            app:layout_constraintStart_toEndOf="@id/map_back_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            style="?android:attr/buttonBarButtonStyle"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

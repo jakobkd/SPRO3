@@ -4,10 +4,10 @@ import socket
 import threading
 import time
 from multiprocessing import Pipe
-from multiprocessing import Queue
+import Queue
 
-q_in = Queue()
-q_out = Queue()
+q_in = Queue.Queue()
+q_out = Queue.Queue()
 
 
 class GracefulKiller:
@@ -61,7 +61,7 @@ class ThreadObject:
                     command = q_out.get()
                     self.mClient.send(command)
                     q_out.task_done()
-                data = self.mClient.recv(WifiSender.bufferSize)
+                data = self.mClient.recv(1024)
                 self.commands = data.split(':')
                 for command in self.commands:
                     q_in.put(command)
@@ -128,31 +128,31 @@ class Robot:
 
 
 class WifiSender:
-    HOST = "127.0.0.1"
-    PORT = 5000
     bufferSize = 1024
+    PORT = 5000
+    HOST = "127.0.0.1"
     disconnected = True
-    thread = threading.Thread
+    client_sockets = []
     killer = GracefulKiller()
 
     try:
         broadcastThread = UDPBroadcast()
         robot = Robot()
-        Socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        Socket.bind(('', PORT))
-        Socket.listen(1)
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_socket.bind(('', PORT))
+        server_socket.listen(5)
     except socket.error as msg:
         os.system("sudo reboot")
         # Socket.close()
         print(msg)
-    if Socket is not None:
+    if server_socket is not None:
         while True:
             while disconnected:
                 print("listening")
-                client, addr = Socket.accept()
+                client, addr = server_socket.accept()
                 if addr is not None:
                     print("connected to {}".format(str(addr)))
                     disconnected = False
-                    c1 = ThreadObject(client)
+                    client_sockets.append(ThreadObject(client))
 
 

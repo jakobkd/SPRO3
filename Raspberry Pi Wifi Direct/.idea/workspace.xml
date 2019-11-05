@@ -2,11 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="31a96376-658e-4cb2-8ba4-adab83268ed9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../EZRobotAC/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../EZRobotAC/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EZRobotAC/app/src/main/java/com/teamez/ezrobotac/DeviceListAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../EZRobotAC/app/src/main/java/com/teamez/ezrobotac/DeviceListAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Raspberry Pi Wifi Direct.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Raspberry Pi Wifi Direct.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WifiSender.py" beforeDir="false" afterPath="$PROJECT_DIR$/WifiSender.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -109,7 +104,7 @@
       <workItem from="1572802711569" duration="356000" />
       <workItem from="1572803126475" duration="67000" />
       <workItem from="1572870485923" duration="1063000" />
-      <workItem from="1572944938532" duration="5047000" />
+      <workItem from="1572944938532" duration="5827000" />
     </task>
     <servers />
   </component>

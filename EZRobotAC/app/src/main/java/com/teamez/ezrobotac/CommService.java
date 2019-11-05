@@ -19,10 +19,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +27,11 @@ public class CommService extends Service {
 
     public static String SERVERIP = "";
     public static final int SERVERPORT = 5000;
-    static String UDP_BROADCAST_MSG = "EZRobot";
     Socket socket;
     InetAddress serverAddr;
     ArrayList<Messenger> mClients = new ArrayList<>();
     String TAG = "Socket Service";
+    Boolean socketStop = false;
 
     DatagramSocket UDPSocket;
 
@@ -44,6 +41,7 @@ public class CommService extends Service {
     static final int MSG_STRING_VAL = 4;
     static final int MSG_MOVE_ROBOT = 5;
     static final int MSG_ROBOT_BROADCAST = 6;
+    static final int MSG_REINIT_CONN = 0;
     final Messenger mMessenger = new Messenger(new IncomingHandler());
 
     List<String> outQueue = new ArrayList<>();
@@ -70,6 +68,12 @@ public class CommService extends Service {
         return START_STICKY;
     }
 
+    public void setConnectionThread(String ip) {
+        socketStop = !SERVERIP.equals("");
+        while (socketStop || socket != null);
+        SERVERIP = ip;
+    }
+
     @SuppressLint("HandlerLeak")
     class IncomingHandler extends Handler {
         @Override
@@ -87,6 +91,9 @@ public class CommService extends Service {
                 case MSG_MOVE_ROBOT:
                     outQueue.add((String)msg.obj);
                     break;
+                case MSG_REINIT_CONN:
+                    setConnectionThread(msg.obj.toString());
+                    //sendMessageToUI("got message");
             }
 
             super.handleMessage(msg);
@@ -140,67 +147,73 @@ public class CommService extends Service {
         DataInputStream inputStream = null;
         DataOutputStream outputStream = null;
 
+        void stop() {
+            if(socket != null && !socket.isClosed()) {
+                try {
+                    SERVERIP = "";
+                    socket.close();
+                    socket = null;
+                    socketStop = false;
+                    Log.d(TAG, "Connection socket closed");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.d(TAG, "Connection socket already closed");
+            }
+
+        }
+
         @Override
         public void run() {
-            if(SERVERIP.equals("server")) {
-                try {
-                    ServerSocket serverSocket = new ServerSocket(SERVERPORT);
-                    socket = serverSocket.accept();
-                    sendMessageToUI("Server");
-                    Log.d(TAG, "Server socket is open");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else if(!SERVERIP.equals("")) {
-
-                try {
-                    serverAddr = InetAddress.getByName(SERVERIP);
-                    socket = new Socket(serverAddr, SERVERPORT);
-                    sendMessageToUI("Client");
-                    Log.d(TAG, "Client socket connected to server");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-                while(true) {
-                    if (socket != null) {
-
-                        try {
-                            inputStream = new DataInputStream(socket.getInputStream());
-                            byte[] buffer = new byte[1024];
-                            int bytesToRead = inputStream.available();
-
-                            if (bytesToRead > 0) {
-                                inputStream.read(buffer, 0, bytesToRead);
-
-
-                                String line = new String(buffer);
-                                String[] commands = line.split(":");
-
-                                for(String s : commands) {
-                                sendMessageToUI(s);
-                                Log.d(TAG, "Msg received");
-                                }
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            outputStream = new DataOutputStream(socket.getOutputStream());
-                            if (outQueue.size() != 0) {
-                                for (String s : outQueue) {
-                                    outputStream.write(s.getBytes(), 0, s.getBytes().length);
-                                    Log.d(TAG, "Msg sent");
-                                }
-                                outQueue.clear();
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+            while(true) {
+                if(socket == null && !SERVERIP.equals("")) {
+                    try {
+                        serverAddr = InetAddress.getByName(SERVERIP);
+                        socket = new Socket(serverAddr, SERVERPORT);
+                        //sendMessageToUI("Client");
+                        Log.d(TAG, "Client socket connected to server");
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
+                if (socket != null && socketStop) {
+                    stop();
+                } else if(socket != null) {
+                    try {
+                        inputStream = new DataInputStream(socket.getInputStream());
+                        byte[] buffer = new byte[1024];
+                        int bytesToRead = inputStream.available();
+                        if (bytesToRead > 0) {
+                            inputStream.read(buffer, 0, bytesToRead);
+                            String line = new String(buffer);
+                            String[] commands = line.split(":");
+
+                            for (String s : commands) {
+                                sendMessageToUI(s);
+                                Log.d(TAG, "Msg received");
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                    }
+                    try {
+                        outputStream = new DataOutputStream(socket.getOutputStream());
+                        if (outQueue.size() != 0) {
+                            for (String s : outQueue) {
+                                outputStream.write(s.getBytes(), 0, s.getBytes().length);
+                                Log.d(TAG, "Msg sent");
+                            }
+                            outQueue.clear();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
     }
 }
+

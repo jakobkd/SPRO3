@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="31a96376-658e-4cb2-8ba4-adab83268ed9" name="Default Changelist" comment="" />
+    <list default="true" id="31a96376-658e-4cb2-8ba4-adab83268ed9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../EZRobotAC/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../EZRobotAC/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EZRobotAC/app/src/main/java/com/teamez/ezrobotac/DeviceListAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../EZRobotAC/app/src/main/java/com/teamez/ezrobotac/DeviceListAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Raspberry Pi Wifi Direct.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Raspberry Pi Wifi Direct.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WifiSender.py" beforeDir="false" afterPath="$PROJECT_DIR$/WifiSender.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,9 +36,16 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
   <component name="ProjectId" id="1RvpGpRkBpqDkdqkJPIb6z95ih1" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="C:/Program Files/Git/bin/git.exe" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -90,11 +104,30 @@
       <workItem from="1572452581586" duration="3817000" />
       <workItem from="1572693172366" duration="3085000" />
       <workItem from="1572701852536" duration="885000" />
+      <workItem from="1572802357059" duration="60000" />
+      <workItem from="1572802450264" duration="229000" />
+      <workItem from="1572802711569" duration="356000" />
+      <workItem from="1572803126475" duration="67000" />
+      <workItem from="1572870485923" duration="1063000" />
+      <workItem from="1572944938532" duration="5047000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Raspberry_Pi_Wifi_Direct$WifiSender.coverage" NAME="WifiSender Coverage Results" MODIFIED="1572030240840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />

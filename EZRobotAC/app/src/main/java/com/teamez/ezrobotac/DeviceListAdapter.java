@@ -1,5 +1,7 @@
 package com.teamez.ezrobotac;
 
+import android.os.Message;
+import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,15 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.De
             DeviceInfo item = mDeviceList.get(itemPosition);
             lastSelectedPosition = itemPosition;
             notifyDataSetChanged();
+            try {
+                Message msg = Message.obtain(null, CommService.MSG_REINIT_CONN);
+                msg.replyTo = mContext.mMessenger;
+                msg.obj = item.mPassword;
+                mContext.mService.send(msg);
+                //Toast.makeText(x, "Connected", Toast.LENGTH_SHORT).show();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
     };
 
@@ -77,13 +88,6 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.De
 
         deviceViewHolder.selectionState.setChecked(lastSelectedPosition == i);
 
-        if(di == null) {
-            return;
-        }
-        //String name = di.mConnf.SSID.substring(1, di.mConnf.SSID.length() - 1);
-        //deviceViewHolder.vDeviceName.setText(name);
-        //deviceViewHolder.vDeviceIP.setText(di.mConnf.preSharedKey);
-
     }
 
     @Override
@@ -102,7 +106,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.De
         return new DeviceViewHolder(itemView);
     }
 
-    public static class DeviceViewHolder extends RecyclerView.ViewHolder {
+    static class DeviceViewHolder extends RecyclerView.ViewHolder {
 
          TextView vDeviceName;
          TextView vDeviceIP;

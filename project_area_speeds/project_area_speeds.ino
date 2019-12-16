@@ -1,5 +1,6 @@
 #include <Pixy2.h>
 #include <stdio.h>
+#include <Wire.h>
 
 #define RED_RED 200
 #define RED_GREEN 50
@@ -15,6 +16,10 @@
 #define GREEN_SPEED 2000
 #define BLUE_SPEED 4000
 
+#define CMD_NORMAL 1
+#define CMD_TURN_L 2
+#define CMD_TURN_R 3
+
 volatile int left_motor = 0, throttle_left_motor, throttle_counter_left_motor, throttle_left_motor_memory;
 volatile int right_motor = 0, throttle_right_motor, throttle_counter_right_motor, throttle_right_motor_memory;
 
@@ -26,6 +31,7 @@ byte right_motor_step_pin = 0b00010000;
 byte right_motor_dir_pin = 0b00100000;
 byte microstep_select = 0b00010010;
 
+int cmd = CMD_NORMAL;
 
 Pixy2 pixy;
 
@@ -34,6 +40,9 @@ void setup()
   Serial.begin(115200);
   Serial.print("Starting...\n");
 
+  Wire.begin(0x8); //slave address 0x8
+  Wire.onReceive(receiveEvent);
+
   pixy.init();
   pixy.changeProg("video");
 }
@@ -41,6 +50,26 @@ void setup()
 void loop()
 {
   color_sense_speed_adjust();
+}
+
+void receiveEvent(int angle) {
+  while(Wire.available()) {
+    int i = Wire.read();
+    if(i != 0) {
+      switch(i) {
+        case CMD_NORMAL:
+          cmd = CMD_NORMAL;
+          break;
+        case CMD_TURN_L:
+          cmd = CMD_TURN_L;
+          break;
+        case CMD_TURN_R:
+          cmd = CMD_TURN_R;
+          break;
+      }
+      
+    }
+  }
 }
 
 ISR(TIMER2_COMPA_vect){

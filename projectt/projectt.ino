@@ -14,14 +14,14 @@ byte left_motor_step_pin = 0b00000100;
 byte left_motor_dir_pin = 0b00001000;
 byte right_motor_step_pin = 0b00010000;
 byte right_motor_dir_pin = 0b00100000;
-byte microstep_select = 0b00000010 | 0b00000010<<3;
+byte microstep_select = 0b00010010;
 
 int8_t res;
 
 float previous_error = 0, error = 0, int_error = 0, output = 0;
 
 //Parameters to tweak
-float Kp = 10.0, Ki = 2.0, Kd = 0.0;
+float Kp = 2500.0, Ki = 800.0, Kd = 1000.0;
 float param = 44.4444;
 //Parameters to tweak
 
@@ -110,7 +110,8 @@ void pin_setup(){
   DDRD |= left_motor_dir_pin;
   DDRD |= right_motor_step_pin;
   DDRD |= right_motor_dir_pin;
-  DDRB |= microstep_select;
+  DDRB |= 0b00111111;
+  PORTB |= microstep_select;
   }
 
 void interrupt_setup(){
@@ -124,7 +125,6 @@ void interrupt_setup(){
   }
 
 void pixy_line_follow_initialization(){
-  pixy.setLamp(1, 1);                                                       // Turn on both lamps, upper and lower for maximum exposure
   pixy.changeProg("line");
   }
 
@@ -146,8 +146,8 @@ void motor_pulse_calculations(){
   //Working around the nonlinearity of the stepper motor control
   //FOR WOLFRAM ALPHA: 10 =0.45/(x3+x1/x2);100= 0.45/(x3+x1/(400+x2));55 = 0.45/(x3+x1/(200+x2));solve for x1, x2, x3
   
-  if(output > 0)      left_motor = int((2.0*50000.0/(output + param))),     right_motor = int((2.0*50000.0/(param)));
-  else if(output < 0) right_motor = int((2.0*50000.0/(-output + param))),   left_motor = int((2.0*50000.0/(param)));
+  if(output > 0)      right_motor = int((2.0*50000.0/(output + param))),     left_motor = int((2.0*50000.0/(param)));
+  else if(output < 0) left_motor = int((2.0*50000.0/(-output + param))),   right_motor = int((2.0*50000.0/(param)));
 
   throttle_left_motor = left_motor;                                         //Copy the pulse time to the throttle variables so the interrupt subroutine can use them
   throttle_right_motor = right_motor;

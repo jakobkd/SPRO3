@@ -110,8 +110,9 @@ void pin_setup(){
   DDRD |= left_motor_dir_pin;
   DDRD |= right_motor_step_pin;
   DDRD |= right_motor_dir_pin;
-  DDRB |= 0b00111111;
-  PORTB |= microstep_select;
+  DDRC = 0b11111111;
+  //PORTC |= 0b11101101;
+  PORTC |= microstep_select;
   }
 
 void interrupt_setup(){
@@ -146,8 +147,8 @@ void motor_pulse_calculations(){
   //Working around the nonlinearity of the stepper motor control
   //FOR WOLFRAM ALPHA: 10 =0.45/(x3+x1/x2);100= 0.45/(x3+x1/(400+x2));55 = 0.45/(x3+x1/(200+x2));solve for x1, x2, x3
   
-  if(output > 0)      right_motor = int((2.0*50000.0/(output + param))),     left_motor = int((2.0*50000.0/(param)));
-  else if(output < 0) left_motor = int((2.0*50000.0/(-output + param))),   right_motor = int((2.0*50000.0/(param)));
+  if(output > 0)      left_motor = int((2.0*50000.0/(output + param))),     right_motor = int((2.0*50000.0/(param)));
+  else if(output < 0) right_motor = int((2.0*50000.0/(-output + param))),   left_motor = int((2.0*50000.0/(param)));
 
   throttle_left_motor = left_motor;                                         //Copy the pulse time to the throttle variables so the interrupt subroutine can use them
   throttle_right_motor = right_motor;

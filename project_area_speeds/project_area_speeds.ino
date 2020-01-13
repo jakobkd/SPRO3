@@ -48,7 +48,7 @@ byte right_motor_dir_pin = 0b00100000;
 byte microstep_select = 0b00000010; //original 0b00010010;
 
 int cmd = CMD_NORMAL;
-int MODE = MODE_COLOR;
+int MODE = MODE_LINE;
 
 Pixy2 pixy;
 
@@ -212,6 +212,6 @@ void motor_pulse_calculations(){
   if(output > 0)      left_motor = int((2.0*50000.0/(output + param))),     right_motor = int((2.0*50000.0/(param)));
   else if(output < 0) right_motor = int((2.0*50000.0/(-output + param))),   left_motor = int((2.0*50000.0/(param)));
 
-  throttle_left_motor = left_motor;                                         //Copy the pulse time to the throttle variables so the interrupt subroutine can use them
-  throttle_right_motor = right_motor;
+  throttle_left_motor = -left_motor;                                         //Copy the pulse time to the throttle variables so the interrupt subroutine can use them
+  throttle_right_motor = -right_motor;
 }

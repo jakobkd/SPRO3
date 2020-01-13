@@ -34,6 +34,30 @@ class UDPBroadcast:
             time.sleep(1)
 
 
+class UDPComm:
+
+    def __init__(self):
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+        self.server.bind(("", 50000))
+        self.msg = b"EZRobot-123"
+        self.clientIP = None
+        udpServerthread = threading.Thread(target=self.run, args=())
+        udpServerthread.daemon = True
+        udpServerthread.start()
+
+    def run(self):
+        while True:
+            bytesAddressPair = self.server.recv(1024)
+            message = bytesAddressPair[0]
+            self.clientIP = bytesAddressPair[1]
+            print("Client address: {}".format(clientIP))
+
+            if self.clientIP is not None:
+                self.server.sendto(self.msg, clientIP)
+            # print("UDP Sent")
+
+
 class ThreadObject:
     commands = []
 
@@ -120,14 +144,16 @@ class Robot:
     Mode = MODE_LINE
 
     # initialize wifi
-    wifi = WifiSender()
+    # wifi = WifiSender()
+    broadcast = UDPBroadcast()
+    udp = UDPComm()
 
     try:
         print(lidar.info)
         for scan in lidar.iter_scans():
             for (_, angle, distance) in scan:
                 scan_data[min([359, floor(angle)])] = distance
-            print(scan_data[30])
+            # print(scan_data[30])
         # bus.write_byte_data(addr, i+1, numb)
 
     except KeyboardInterrupt:
